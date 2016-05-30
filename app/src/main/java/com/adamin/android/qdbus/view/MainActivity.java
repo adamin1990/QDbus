@@ -5,6 +5,7 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
+import android.util.Log;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -17,9 +18,22 @@ import android.view.MenuItem;
 
 import com.adamin.android.qdbus.R;
 import com.adamin.android.qdbus.adapter.MainPagerAdapter;
+import com.adamin.android.qdbus.api.ServiceGenerator;
+import com.adamin.android.qdbus.api.service.BusLineService;
+import com.adamin.android.qdbus.domain.BusLineDomain;
+import com.adamin.android.qdbus.thirdparty.avloading.AvloadingDialog;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import rx.Scheduler;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.functions.Action0;
+import rx.functions.Action1;
+import rx.functions.Func1;
+import rx.schedulers.Schedulers;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -36,6 +50,8 @@ public class MainActivity extends AppCompatActivity
     NavigationView navigationView;
     private MainPagerAdapter mainPagerAdapter;
 
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -44,6 +60,8 @@ public class MainActivity extends AppCompatActivity
         init();
 
     }
+
+
 
     private void init() {
         setSupportActionBar(toolbar);
@@ -54,11 +72,13 @@ public class MainActivity extends AppCompatActivity
         mainPagerAdapter=new MainPagerAdapter(getSupportFragmentManager());
         viewPager.setAdapter(mainPagerAdapter);
         tabLayout.setupWithViewPager(viewPager);
-        tabLayout.getTabAt(0).setIcon(R.drawable.ic_menu_camera);
-        tabLayout.getTabAt(1).setIcon(R.drawable.ic_menu_gallery);
+        tabLayout.getTabAt(0).setIcon(R.drawable.ic_polymer_white_18dp).setText("路线");
+        tabLayout.getTabAt(1).setIcon(R.drawable.ic_action_bus).setText("站点");
         tabLayout.setOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
+                    viewPager.setCurrentItem(tab.getPosition(),true);
+                    getSupportActionBar().setTitle(tab.getPosition()==0?"路线查询":"站点查询");
 
             }
 
@@ -72,24 +92,7 @@ public class MainActivity extends AppCompatActivity
 
             }
         });
-        tabLayout.getTabAt(0).setIcon(R.drawable.ic_menu_camera);
-        tabLayout.getTabAt(1).setIcon(R.drawable.ic_menu_gallery);
-        tabLayout.setOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
-            @Override
-            public void onTabSelected(TabLayout.Tab tab) {
 
-            }
-
-            @Override
-            public void onTabUnselected(TabLayout.Tab tab) {
-
-            }
-
-            @Override
-            public void onTabReselected(TabLayout.Tab tab) {
-
-            }
-        });
     }
 
     @Override

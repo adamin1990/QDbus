@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="#00ffffff">
+
+    <LinearLayout android:id="@+id/body"
+        android:background="#00ffffff"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:layout_gravity="center"
+        >
+        <com.adamin.android.qdbus.thirdparty.avloading.AVLoadingIndicatorView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            xmlns:app="http://schemas.android.com/apk/res-auto"
+            app:indicator_color="#FFE75764"
+            app:indicator="BallClipRotateMultiple"
+            />
+        <com.adamin.android.qdbus.thirdparty.avloading.GraduallyTextView
+            android:id="@+id/message"
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:layout_gravity="center"
+            android:textColor="#FFE75764"
+            />
+    </LinearLayout>
+
+</FrameLayout>
