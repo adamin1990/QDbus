@@ -7,6 +7,7 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Filter;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.adamin.android.qdbus.R;
 import com.adamin.android.qdbus.domain.BusLineDomain;
@@ -22,6 +23,7 @@ public class BusLineFilterAdapter extends ArrayAdapter<BusLineDomain> {
 
     private final List<BusLineDomain> dogs;
     public List<BusLineDomain> filteredDogs = new ArrayList<>();
+    OnBusItemClickListener onBusItemClickListener;
     public BusLineFilterAdapter(Context context, List<BusLineDomain> dogs) {
         super(context, 0, dogs);
         this.dogs = dogs;
@@ -38,7 +40,7 @@ public class BusLineFilterAdapter extends ArrayAdapter<BusLineDomain> {
     }
 
     @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
+    public View getView(final int position, View convertView, ViewGroup parent) {
         // Get the data item from filtered list.
         BusLineDomain busLineDomain = filteredDogs.get(position);
 
@@ -50,7 +52,21 @@ public class BusLineFilterAdapter extends ArrayAdapter<BusLineDomain> {
         TextView tvLine = (TextView) convertView.findViewById(R.id.tv_line);
         tvName.setText(busLineDomain.getLineName()+"");
         tvLine.setText(busLineDomain.getBStation()+"-"+busLineDomain.getEStation());
-
+        convertView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+//                Toast.makeText(v.getContext(),filteredDogs.get(position).getLineName(),Toast.LENGTH_SHORT).show();
+                if(onBusItemClickListener!=null){
+                    onBusItemClickListener.onBusItemClick(filteredDogs.get(position));
+                }
+            }
+        });
         return convertView;
+    }
+    public void setOnBusItemClickListener(OnBusItemClickListener busItemClickListener){
+        this.onBusItemClickListener=busItemClickListener;
+    }
+    public interface OnBusItemClickListener{
+        void onBusItemClick(BusLineDomain busLineDomain);
     }
 }

@@ -3,6 +3,8 @@ package com.adamin.android.qdbus.domain;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
+import java.io.Serializable;
+
 /**
  * Created by Adam on 2016/5/30.
  *   {
@@ -13,7 +15,7 @@ import com.google.gson.annotations.SerializedName;
  "Direct": 0
  }
  */
-public class BusLineDomain {
+public class BusLineDomain implements Serializable{
 
     @SerializedName("lineName")
     @Expose

@@ -20,6 +20,7 @@ import com.adamin.android.qdbus.R;
 import com.adamin.android.qdbus.adapter.MainPagerAdapter;
 import com.adamin.android.qdbus.api.ServiceGenerator;
 import com.adamin.android.qdbus.api.service.BusLineService;
+import com.adamin.android.qdbus.db.DBManager;
 import com.adamin.android.qdbus.domain.BusLineDomain;
 import com.adamin.android.qdbus.thirdparty.avloading.AvloadingDialog;
 
@@ -66,6 +67,7 @@ public class MainActivity extends AppCompatActivity
     private void init() {
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
+        getSupportActionBar().setTitle("路线查询");
         toggle=new ActionBarDrawerToggle(this,drawerLayout,toolbar,R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         toggle.syncState();
         navigationView.setNavigationItemSelectedListener(this);
@@ -79,6 +81,7 @@ public class MainActivity extends AppCompatActivity
             public void onTabSelected(TabLayout.Tab tab) {
                     viewPager.setCurrentItem(tab.getPosition(),true);
                     getSupportActionBar().setTitle(tab.getPosition()==0?"路线查询":"站点查询");
+
 
             }
 

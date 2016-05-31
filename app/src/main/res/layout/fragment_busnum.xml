@@ -1,10 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent">
-<android.support.v7.widget.AppCompatAutoCompleteTextView
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
     android:layout_width="match_parent"
-    android:text="test"
-    android:id="@+id/auto_text"
-    android:layout_height="wrap_content" />
+    android:layout_height="match_parent">
+        <android.support.v7.widget.AppCompatAutoCompleteTextView
+            android:layout_width="wrap_content"
+            android:id="@+id/auto_text"
+            android:completionThreshold="1"
+            android:layout_gravity="center_horizontal"
+            android:drawableLeft="@drawable/ic_search_green_500_18dp"
+            android:hint="請輸入線路（比如321，隧道1路）"
+            android:layout_height="wrap_content" />
+        <com.adamin.android.qdbus.thirdparty.tagview.TagView
+            android:id="@+id/tagview"
+            android:layout_width="match_parent"
+            android:layout_marginTop="15dp"
+            android:layout_height="wrap_content"
+            app:lineMargin="20dp">
+
+        </com.adamin.android.qdbus.thirdparty.tagview.TagView>
+
 </LinearLayout>
