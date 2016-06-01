@@ -180,8 +180,13 @@ public class BusListActivity extends AppCompatActivity {
                 }, new Action0() {
                     @Override
                     public void call() {
-                        lineDetailDomains2.get(position).setStrings(realtimeDatasout);
-                        lineDetailAdapter.notifyChildItemRangeInserted(position,0,realtimeDatasout.size());
+                        if(realtimeDatasout.size()==0){
+                            Snackbar.make(recyclerView,"总站没有发车",Snackbar.LENGTH_LONG).show();
+                        }else {
+                            lineDetailDomains2.get(position).setStrings(realtimeDatasout);
+                            lineDetailAdapter.notifyChildItemRangeInserted(position,0,realtimeDatasout.size());
+                        }
+
                         lastposition=position;
                         lastchildsize=lineDetailDomains2.size();
 
