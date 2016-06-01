@@ -92,6 +92,7 @@ public class BusListActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         collapsingToolbarLayout.setTitle("606路-上行");
         busLineDomain= (BusLineDomain) getIntent().getSerializableExtra("busdomain");
+        direction=busLineDomain.getDirect();
         lineDetailService= ServiceGenerator.createService(LineDetailService.class);
         realtimeService=ServiceGenerator.createService(RealtimeService.class);
         linearLayoutManager=new LinearLayoutManager(this);
@@ -106,7 +107,7 @@ public class BusListActivity extends AppCompatActivity {
 
     private void getData() {
 
-        lineDetailService.getLineDetail("606",0)
+        lineDetailService.getLineDetail(busLineDomain.getGuid(),direction)
                 .map(new Func1<LineDetailRealWrapper, List<LineDetailDomain>>() {
                     @Override
                     public List<LineDetailDomain> call(LineDetailRealWrapper lineDetailRealWrapper) {
