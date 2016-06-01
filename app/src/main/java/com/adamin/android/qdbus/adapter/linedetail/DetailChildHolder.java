@@ -22,7 +22,7 @@ public class DetailChildHolder extends ChildViewHolder {
         chepai= (TextView) itemView.findViewById(R.id.tv_child1);
     }
     public void bind(RealtimeData realtimeData){
-        chepai.setText("你大爺的"+"");
+        chepai.setText(realtimeData.getBusStopName()+"还有"+realtimeData.getStationNum()+"站");
 //        zaina.setText(realtimeData.getBusStopName()+"("+realtimeData.getActDatetime()+")");
 //        haiyou.setText("還有"+realtimeData.getStationNum()+"站");
 
