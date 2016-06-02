@@ -8,6 +8,11 @@
     android:layout_height="wrap_content"
     android:textSize="20sp"
     android:padding="15dp"
-    android:textColor="@color/md_pink_600"
+    android:textColor="@color/md_brown_800"
+    android:textStyle="bold"
     android:text="parent"/>
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/md_brown_300"/>
 </LinearLayout>

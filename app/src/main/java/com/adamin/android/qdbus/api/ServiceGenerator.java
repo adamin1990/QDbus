@@ -10,7 +10,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
  */
 public class ServiceGenerator {
 
-    public static final String BASE_URL="http://qingdao.2500city.com/";
+    public static final String BASE_URL=QdBusApi.API_GET_BASE;
     private static OkHttpClient.Builder httpClient = new OkHttpClient.Builder();
 
     private static Retrofit.Builder builder =

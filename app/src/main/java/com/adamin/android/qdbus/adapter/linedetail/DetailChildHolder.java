@@ -11,7 +11,7 @@ import com.adamin.android.qdbus.thirdparty.expandablerecyclerview.ViewHolder.Chi
  * Created by Adam on 2016/5/31.
  */
 public class DetailChildHolder extends ChildViewHolder {
-    private TextView chepai,haiyou,zaina;
+    private TextView shijian,haiyou,chepai;
     /**
      * Default constructor.
      *
@@ -19,10 +19,14 @@ public class DetailChildHolder extends ChildViewHolder {
      */
     public DetailChildHolder(View itemView) {
         super(itemView);
-        chepai= (TextView) itemView.findViewById(R.id.tv_child1);
+        shijian= (TextView) itemView.findViewById(R.id.tv_child1);
+        haiyou= (TextView) itemView.findViewById(R.id.tv_haiyou);
+        chepai= (TextView) itemView.findViewById(R.id.tv_chepai);
     }
     public void bind(RealtimeData realtimeData){
-        chepai.setText(realtimeData.getBusStopName()+"还有"+realtimeData.getStationNum()+"站");
+        shijian.setText(realtimeData.getBusStopName()+" ("+realtimeData.getActDatetime()+"到达"+")");
+        haiyou.setText("还有"+realtimeData.getStationNum()+"站");
+        chepai.setText(realtimeData.getBusId()+"");
 //        zaina.setText(realtimeData.getBusStopName()+"("+realtimeData.getActDatetime()+")");
 //        haiyou.setText("還有"+realtimeData.getStationNum()+"站");
 

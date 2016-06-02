@@ -80,7 +80,7 @@ public class BusNumFragment extends Fragment {
                     Tag tag = new Tag(history.get(i).getLineName());
                     tag.tagTextSize = 16;
                     tag.isDeletable = true;
-                    tag.layoutColor = R.color.md_green_500;
+                    tag.layoutColor = R.color.md_brown_500;
                     tagView.addTag(tag);
                 }
             }
@@ -93,7 +93,7 @@ public class BusNumFragment extends Fragment {
         history = new ArrayList<>();
         busLineDomain = new ArrayList<>();
         avloadingDialog = new AvloadingDialog(getActivity());
-        avloadingDialog.setMessage("数据加载中..");
+        avloadingDialog.setMessage("正在查询..");
         avloadingDialog.diaogshow();
         autoCompleteTextView.setDropDownAnchor(R.id.auto_text);
         busLineFilterAdapter = new BusLineFilterAdapter(getActivity(), busLineDomain);
