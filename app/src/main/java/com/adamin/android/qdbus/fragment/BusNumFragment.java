@@ -1,6 +1,8 @@
 package com.adamin.android.qdbus.fragment;
 
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -80,8 +82,12 @@ public class BusNumFragment extends Fragment {
                     Tag tag = new Tag(history.get(i).getLineName());
                     tag.tagTextSize = 16;
                     tag.isDeletable = true;
-                    tag.layoutColor = R.color.md_brown_500;
+//                    tag.layoutColor = R.color.md_brown_500;
+//                    tag.layoutColor= Color.parseColor("#e91e63");
+                    tag.background=new ColorDrawable(Color.parseColor("#795548"));
+                    tag.radius=5;
                     tagView.addTag(tag);
+
                 }
             }
             super.handleMessage(msg);
@@ -135,7 +141,9 @@ public class BusNumFragment extends Fragment {
             Tag tag = new Tag(history.get(i).getLineName());
             tag.tagTextSize = 16;
             tag.isDeletable = true;
-            tag.layoutColor = R.color.md_green_500;
+//            tag.layoutColor = R.color.md_brown_500;
+            tag.background=new ColorDrawable(Color.parseColor("#795548"));
+            tag.radius=5;
             tagView.addTag(tag);
         }
     }
