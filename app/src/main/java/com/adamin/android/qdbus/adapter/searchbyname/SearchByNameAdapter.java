@@ -1,5 +1,6 @@
 package com.adamin.android.qdbus.adapter.searchbyname;
 
+import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -8,6 +9,7 @@ import android.widget.TextView;
 
 import com.adamin.android.qdbus.R;
 import com.adamin.android.qdbus.domain.stationsearch.SearchBusDomain;
+import com.adamin.android.qdbus.view.NearByStopActivity;
 
 import java.util.List;
 
@@ -32,13 +34,15 @@ public class SearchByNameAdapter extends RecyclerView.Adapter<SearchByNameAdapte
     }
 
     @Override
-    public void onBindViewHolder(MyHolder holder, int position) {
+    public void onBindViewHolder(final MyHolder holder, final int position) {
         holder.tv_station.setText(searchBusDomains.get(position).getName()+"("+searchBusDomains.get(position).getRoad()+")");
         holder.tv_place.setText(searchBusDomains.get(position).getCanton()+"");
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                Intent intent=new Intent(holder.itemView.getContext(), NearByStopActivity.class);
+                intent.putExtra("searchbusdomain",searchBusDomains.get(position));
+                holder.itemView.getContext().startActivity(intent);
             }
         });
 

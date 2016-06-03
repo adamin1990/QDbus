@@ -3,10 +3,12 @@ package com.adamin.android.qdbus.domain.stationsearch;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
+import java.io.Serializable;
+
 /**
  * Created by Adam on 2016/6/3.
  */
-public class SearchBusDomain {
+public class SearchBusDomain  implements Serializable{
 
     @SerializedName("Name")
     @Expose
