@@ -56,7 +56,7 @@ public class NearByStopActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
         getSupportActionBar().setTitle(null);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
-        getSupportActionBar().setDefaultDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         searchBusDomain= (SearchBusDomain) getIntent().getSerializableExtra("searchbusdomain");
         nearbyStopDomains=new ArrayList<>();
         nearByStopAdapter=new NearByStopAdapter(nearbyStopDomains,searchBusDomain);

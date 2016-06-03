@@ -1,5 +1,6 @@
 package com.adamin.android.qdbus.adapter.nearbystop;
 
+import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -7,8 +8,10 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.adamin.android.qdbus.R;
+import com.adamin.android.qdbus.domain.BusLineDomain;
 import com.adamin.android.qdbus.domain.nearbystop.NearbyStopDomain;
 import com.adamin.android.qdbus.domain.stationsearch.SearchBusDomain;
+import com.adamin.android.qdbus.view.BusListActivity;
 
 import java.util.List;
 
@@ -58,18 +61,27 @@ public class NearByStopAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
     }
 
     @Override
-    public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
+    public void onBindViewHolder(final RecyclerView.ViewHolder holder, final int position) {
         if(getItemViewType(position)==TYPE_ITEM){
             ((NeayByHolder)holder).tv_road.setText(nearbyStopDomains.get(position-1).getLName()+"("+nearbyStopDomains.get(position-1).getLDirection()+")");
             holder.itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+                    Intent intent=new Intent(holder.itemView.getContext(), BusListActivity.class);
+                    BusLineDomain busLineDomain=new BusLineDomain();
+                    busLineDomain.setDirect(nearbyStopDomains.get(position-1).getDirect());
+                    busLineDomain.setGuid(nearbyStopDomains.get(position-1).getGuid()+"");
+                    busLineDomain.setBStation("");
+                    busLineDomain.setEStation("");
+                    busLineDomain.setLineName(nearbyStopDomains.get(position-1).getLName()+"");
+                    intent.putExtra("busdomain",busLineDomain);
+                    holder.itemView.getContext().startActivity(intent);
 
                 }
             });
         }else if(getItemViewType(position)==TYPE_HEADER){
             ((HeadHoder)holder).tv_hroad.setText(searchBusDomain.getName()+"");
-            ((HeadHoder)holder).tv_hrwop.setText("位於"+searchBusDomain.getRoad());
+            ((HeadHoder)holder).tv_hrwop.setText("("+"位于"+searchBusDomain.getRoad()+"）");
         }
 
     }
