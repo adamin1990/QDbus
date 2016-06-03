@@ -4,6 +4,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 
+import com.adamin.android.qdbus.fragment.BusNameFragment;
 import com.adamin.android.qdbus.fragment.BusNumFragment;
 
 /**
@@ -20,7 +21,7 @@ public class MainPagerAdapter extends FragmentPagerAdapter {
             case 0:
                 return BusNumFragment.newInstance();
             case 1:
-                return BusNumFragment.newInstance();
+                return BusNameFragment.newInstance();
         }
         return null;
     }

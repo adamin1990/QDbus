@@ -9,8 +9,8 @@
             android:id="@+id/auto_text"
             android:completionThreshold="1"
             android:layout_gravity="center_horizontal"
-            android:drawableLeft="@drawable/ic_search_green_500_18dp"
-            android:hint="請輸入線路（比如321，隧道1路）"
+            android:drawableLeft="@drawable/ic_search_brown_500_18dp"
+            android:hint="请输入线路（比如321，隧道1路）"
             android:layout_height="wrap_content" />
         <com.adamin.android.qdbus.thirdparty.tagview.TagView
             android:id="@+id/tagview"

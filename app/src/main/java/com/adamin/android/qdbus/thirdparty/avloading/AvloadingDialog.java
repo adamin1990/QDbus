@@ -19,6 +19,7 @@ public class AvloadingDialog extends AlertDialog{
         View view= LayoutInflater.from(getContext()).inflate(R.layout.dialog_avloading,null);
         mMessageView= (GraduallyTextView) view.findViewById(R.id.message);
         setView(view);
+       setCancelable(false);
 
     }
     public void diaogshow(){
