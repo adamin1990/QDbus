@@ -34,11 +34,12 @@
             android:label="@string/title_activity_near_by_stop"
             android:theme="@style/AppTheme" />
         <activity
-            android:name=".LoginActivity"
-            android:label="@string/title_activity_login" />
-        <activity
             android:name=".view.Activity_login"
             android:label="@string/title_activity_activity_login"
+            android:theme="@style/AppTheme" />
+        <activity
+            android:name=".view.SignUpActivity"
+            android:label="@string/title_activity_sign_up"
             android:theme="@style/AppTheme"></activity>
     </application>
 

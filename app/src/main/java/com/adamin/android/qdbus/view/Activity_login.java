@@ -1,5 +1,6 @@
 package com.adamin.android.qdbus.view;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -15,7 +16,7 @@ import com.adamin.android.qdbus.R;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class Activity_login extends AppCompatActivity {
+public class Activity_login extends AppCompatActivity implements View.OnClickListener{
 
     @BindView(R.id.input_email)
     EditText _emailText;
@@ -30,6 +31,19 @@ public class Activity_login extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_activity_login);
         ButterKnife.bind(this);
+        initlistener();
     }
 
+    private void initlistener() {
+        _signupLink.setOnClickListener(this);
+    }
+
+    @Override
+    public void onClick(View v) {
+        if(v.getId()==R.id.link_signup)
+        {
+            startActivity(new Intent(Activity_login.this,SignUpActivity.class));
+
+        }
+    }
 }

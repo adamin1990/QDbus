@@ -1,5 +1,6 @@
 package com.adamin.android.qdbus.view;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -15,6 +16,9 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.ImageView;
+import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import com.adamin.android.qdbus.R;
 import com.adamin.android.qdbus.adapter.MainPagerAdapter;
@@ -37,7 +41,7 @@ import rx.functions.Func1;
 import rx.schedulers.Schedulers;
 
 public class MainActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener {
+        implements NavigationView.OnNavigationItemSelectedListener,View.OnClickListener {
     @BindView(R.id.tablayout)
     TabLayout tabLayout;
     @BindView(R.id.mian_viewpager)
@@ -51,6 +55,11 @@ public class MainActivity extends AppCompatActivity
     NavigationView navigationView;
     private MainPagerAdapter mainPagerAdapter;
 
+    ImageView img_avator;
+    TextView tv_usr_name;
+    TextView tv_usr_email;
+    RelativeLayout rv_uname_and_email;
+
 
 
     @Override
@@ -59,9 +68,13 @@ public class MainActivity extends AppCompatActivity
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
         init();
+        initListener();
 
     }
 
+    private void initListener() {
+              rv_uname_and_email.setOnClickListener(this);
+    }
 
 
     private void init() {
@@ -95,6 +108,12 @@ public class MainActivity extends AppCompatActivity
 
             }
         });
+
+
+        img_avator= (ImageView)navigationView.getHeaderView(0). findViewById(R.id.nav_image_avator);
+        tv_usr_name= (TextView) navigationView.getHeaderView(0).findViewById(R.id.nav_tv_name);
+        tv_usr_email= (TextView) navigationView.getHeaderView(0).findViewById(R.id.nav_tv_email);
+        rv_uname_and_email= (RelativeLayout)navigationView. getHeaderView(0).findViewById(R.id.nav_relative_layout);
 
     }
 
@@ -152,5 +171,15 @@ public class MainActivity extends AppCompatActivity
 
        drawerLayout.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()){
+            case R.id.nav_relative_layout:
+                startActivity(new Intent(MainActivity.this,Activity_login.class));
+                break;
+        }
+
     }
 }
