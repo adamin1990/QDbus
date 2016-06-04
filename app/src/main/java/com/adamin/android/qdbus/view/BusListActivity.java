@@ -5,10 +5,12 @@ import android.support.annotation.NonNull;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.v4.text.TextUtilsCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
@@ -146,9 +148,14 @@ public class BusListActivity extends AppCompatActivity {
                     @Override
                     public void call() {
                         avloadingDialog.dismiss();
-                        tv_from_end.setText(busLineDomain.getDirect()==direction?busLineDomain.getBStation()+" 至 "
-                                +busLineDomain.getEStation():busLineDomain.getEStation()+" 至 "
-                                +busLineDomain.getBStation());
+                        if(TextUtils.isEmpty(busLineDomain.getBStation())){
+                            tv_from_end.setText("");
+                        }else {
+                            tv_from_end.setText(busLineDomain.getDirect()==direction?busLineDomain.getBStation()+" 至 "
+                                    +busLineDomain.getEStation():busLineDomain.getEStation()+" 至 "
+                                    +busLineDomain.getBStation());
+                        }
+
                         tv_linename.setText(lname+"");
                         tv_time_in.setText(begintime+"-"+endtime);
                         collapsingToolbarLayout.setTitle(lname+"-"+ldirection);
