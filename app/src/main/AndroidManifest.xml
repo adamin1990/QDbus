@@ -11,13 +11,17 @@
     <!-- 保持CPU 运转，屏幕和键盘灯有可能是关闭的,用于文件上传和下载 -->
     <uses-permission android:name="android.permission.WAKE_LOCK" />
     <!-- 获取sd卡写的权限，用于文件上传和下载 -->
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />  <!--dangerous-->
     <!-- 允许读取手机状态 用于创建BmobInstallation -->
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+
+
+    <uses-sdk android:minSdkVersion="4"></uses-sdk>
 
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
+        android:name="android.support.multidex.MultiDexApplication"
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
@@ -51,6 +55,9 @@
             android:name=".view.Activity_About"
             android:label="@string/title_activity_activity__about"
             android:theme="@style/AppTheme"></activity>
+
+        <meta-data android:value="5757dcbbe0f55aea8a000b71" android:name="UMENG_APPKEY"></meta-data>
+        <meta-data android:value="Channel ID" android:name="UMENG_CHANNEL"/>
     </application>
 
 </manifest>

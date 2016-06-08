@@ -1,5 +1,6 @@
 package com.adamin.android.qdbus.view;
 
+import android.Manifest;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -36,6 +37,8 @@ import com.adamin.android.qdbus.domain.user.BusUser;
 import com.adamin.android.qdbus.thirdparty.avloading.AvloadingDialog;
 import com.github.javiersantos.appupdater.AppUpdater;
 import com.github.javiersantos.appupdater.enums.UpdateFrom;
+import com.tbruyelle.rxpermissions.RxPermissions;
+import com.umeng.analytics.MobclickAgent;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -52,7 +55,7 @@ import rx.functions.Func1;
 import rx.schedulers.Schedulers;
 
 public class MainActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener,View.OnClickListener {
+        implements NavigationView.OnNavigationItemSelectedListener, View.OnClickListener {
     @BindView(R.id.tablayout)
     TabLayout tabLayout;
     @BindView(R.id.mian_viewpager)
@@ -70,10 +73,9 @@ public class MainActivity extends AppCompatActivity
     TextView tv_usr_name;
     TextView tv_usr_email;
     RelativeLayout rv_uname_and_email;
-    public static final String ACTON_LOGIN="ACTION_LOGIN_QDBUS";
-    public static final String ACTION_EXIT="ACTION_EXIT_QDBUS";
+    public static final String ACTON_LOGIN = "ACTION_LOGIN_QDBUS";
+    public static final String ACTION_EXIT = "ACTION_EXIT_QDBUS";
     private LogReceiver receiver;
-
 
 
     @Override
@@ -81,14 +83,31 @@ public class MainActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
-        Bmob.initialize(this,"2607ad587aca57ebfc9ffc30aa74a120");
+        RxPermissions.getInstance(getApplication())
+                .request(Manifest.permission.WRITE_EXTERNAL_STORAGE,Manifest.permission.READ_PHONE_STATE)
+                .subscribe(new Action1<Boolean>() {
+                    @Override
+                    public void call(Boolean aBoolean) {
+                        Log.e("权限","通过？"+aBoolean);
+                        if(!aBoolean){
+                            Toast.makeText(MainActivity.this,"权限拒绝，即将关闭",Toast.LENGTH_SHORT).show();
+                            viewPager.postDelayed(new Runnable() {
+                                @Override
+                                public void run() {
+                                    finish();
+                                }
+                            },3000);
+                        }
+                    }
+                });
+        Bmob.initialize(this, "2607ad587aca57ebfc9ffc30aa74a120");
         init();
         initListener();
-        receiver=new LogReceiver();
-        IntentFilter intentFilter=new IntentFilter();
+        receiver = new LogReceiver();
+        IntentFilter intentFilter = new IntentFilter();
         intentFilter.addAction(ACTON_LOGIN);
         intentFilter.addAction(ACTION_EXIT);
-        registerReceiver(receiver,intentFilter);
+        registerReceiver(receiver, intentFilter);
         checkUpdate();
 
     }
@@ -107,7 +126,7 @@ public class MainActivity extends AppCompatActivity
     }
 
     private void initListener() {
-              rv_uname_and_email.setOnClickListener(this);
+        rv_uname_and_email.setOnClickListener(this);
     }
 
 
@@ -115,10 +134,10 @@ public class MainActivity extends AppCompatActivity
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
         getSupportActionBar().setTitle("路线查询");
-        toggle=new ActionBarDrawerToggle(this,drawerLayout,toolbar,R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+        toggle = new ActionBarDrawerToggle(this, drawerLayout, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         toggle.syncState();
         navigationView.setNavigationItemSelectedListener(this);
-        mainPagerAdapter=new MainPagerAdapter(getSupportFragmentManager());
+        mainPagerAdapter = new MainPagerAdapter(getSupportFragmentManager());
         viewPager.setAdapter(mainPagerAdapter);
         tabLayout.setupWithViewPager(viewPager);
         tabLayout.getTabAt(0).setIcon(R.drawable.ic_polymer_white_18dp).setText("路线");
@@ -126,8 +145,8 @@ public class MainActivity extends AppCompatActivity
         tabLayout.setOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
-                    viewPager.setCurrentItem(tab.getPosition(),true);
-                    getSupportActionBar().setTitle(tab.getPosition()==0?"路线查询":"站点查询");
+                viewPager.setCurrentItem(tab.getPosition(), true);
+                getSupportActionBar().setTitle(tab.getPosition() == 0 ? "路线查询" : "站点查询");
 
 
             }
@@ -144,14 +163,14 @@ public class MainActivity extends AppCompatActivity
         });
 
 
-        img_avator= (ImageView)navigationView.getHeaderView(0). findViewById(R.id.nav_image_avator);
-        tv_usr_name= (TextView) navigationView.getHeaderView(0).findViewById(R.id.nav_tv_name);
-        tv_usr_email= (TextView) navigationView.getHeaderView(0).findViewById(R.id.nav_tv_email);
-        rv_uname_and_email= (RelativeLayout)navigationView. getHeaderView(0).findViewById(R.id.nav_relative_layout);
-        BusUser busUser=BmobUser.getCurrentUser(getApplicationContext(),BusUser.class);
-        if(null!=busUser){
-            tv_usr_name.setText(busUser.getUsername()+"");
-            tv_usr_email.setText(busUser.getEmail()+"");
+        img_avator = (ImageView) navigationView.getHeaderView(0).findViewById(R.id.nav_image_avator);
+        tv_usr_name = (TextView) navigationView.getHeaderView(0).findViewById(R.id.nav_tv_name);
+        tv_usr_email = (TextView) navigationView.getHeaderView(0).findViewById(R.id.nav_tv_email);
+        rv_uname_and_email = (RelativeLayout) navigationView.getHeaderView(0).findViewById(R.id.nav_relative_layout);
+        BusUser busUser = BmobUser.getCurrentUser(getApplicationContext(), BusUser.class);
+        if (null != busUser) {
+            tv_usr_name.setText(busUser.getUsername() + "");
+            tv_usr_email.setText(busUser.getEmail() + "");
         }
 
     }
@@ -195,30 +214,35 @@ public class MainActivity extends AppCompatActivity
         int id = item.getItemId();
 //
         if (id == R.id.nav_exit) {
-            BusUser busUser=BmobUser.getCurrentUser(getApplicationContext(),BusUser.class);
-            if(busUser!=null){
-                AlertDialog alertDialog=new AlertDialog.Builder(MainActivity.this)
+            BusUser busUser = BmobUser.getCurrentUser(getApplicationContext(), BusUser.class);
+            if (busUser != null) {
+                AlertDialog alertDialog = new AlertDialog.Builder(MainActivity.this)
                         .setMessage("确认退出吗？")
                         .setPositiveButton("确认", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
-                         BmobUser.logOut(getApplicationContext());
-                                BusUser busUser=BmobUser.getCurrentUser(getApplicationContext(),BusUser.class);
-                                if(busUser==null){
-                                    Toast.makeText(MainActivity.this,"退出成功",Toast.LENGTH_SHORT).show();
+                                BmobUser.logOut(getApplicationContext());
+                                BusUser busUser = BmobUser.getCurrentUser(getApplicationContext(), BusUser.class);
+                                if (busUser == null) {
+                                    Toast.makeText(MainActivity.this, "退出成功", Toast.LENGTH_SHORT).show();
                                     sendBroadcast(new Intent(ACTION_EXIT));
                                 }
                             }
-                        }).setNegativeButton("取消",null)
+                        }).setNegativeButton("取消", null)
                         .create();
                 alertDialog.show();
             }
+        } else if (id == R.id.nav_about) {
+            startActivity(new Intent(MainActivity.this, Activity_About.class));
+
+        } else if (id == R.id.nav_share) {
+            Intent sendIntent = new Intent();
+            sendIntent.setAction(Intent.ACTION_SEND);
+            sendIntent.putExtra(Intent.EXTRA_TEXT, "青岛公交APP，实时查询，把握上下班时间~\nAndroid版地址：http://fir.im/c4yq ");
+            sendIntent.setType("text/plain");
+            startActivity(sendIntent);
         }
-//        else if (id == R.id.nav_gallery) {
-//
-//        } else if (id == R.id.nav_slideshow) {
-//
-//        } else if (id == R.id.nav_manage) {
+//        else if (id == R.id.nav_manage) {
 //
 //        } else if (id == R.id.nav_share) {
 //
@@ -226,19 +250,19 @@ public class MainActivity extends AppCompatActivity
 //
 //        }
 
-       drawerLayout.closeDrawer(GravityCompat.START);
+        drawerLayout.closeDrawer(GravityCompat.START);
         return true;
     }
 
     @Override
     public void onClick(View v) {
-        switch (v.getId()){
+        switch (v.getId()) {
             case R.id.nav_relative_layout:
-                BusUser busUser=BmobUser.getCurrentUser(getApplicationContext(),BusUser.class);
-                if(null!=busUser){
+                BusUser busUser = BmobUser.getCurrentUser(getApplicationContext(), BusUser.class);
+                if (null != busUser) {
 
-                }else {
-                    startActivity(new Intent(MainActivity.this,Activity_login.class));
+                } else {
+                    startActivity(new Intent(MainActivity.this, Activity_login.class));
 
                 }
                 break;
@@ -252,23 +276,32 @@ public class MainActivity extends AppCompatActivity
         super.onDestroy();
     }
 
-    class LogReceiver extends BroadcastReceiver{
+    class LogReceiver extends BroadcastReceiver {
 
         @Override
         public void onReceive(Context context, Intent intent) {
-            if(intent.getAction().equals(ACTON_LOGIN)){
-                BusUser busUser= BmobUser.getCurrentUser(getApplicationContext(),BusUser.class);
-                if(null!=busUser){
-                    tv_usr_email.setText(busUser.getEmail()+"");
-                    tv_usr_name.setText(busUser.getUsername()+"");
+            if (intent.getAction().equals(ACTON_LOGIN)) {
+                BusUser busUser = BmobUser.getCurrentUser(getApplicationContext(), BusUser.class);
+                if (null != busUser) {
+                    tv_usr_email.setText(busUser.getEmail() + "");
+                    tv_usr_name.setText(busUser.getUsername() + "");
                 }
                 return;
             }
-            if(intent.getAction().equals(ACTION_EXIT)){
+            if (intent.getAction().equals(ACTION_EXIT)) {
                 tv_usr_email.setText("");
                 tv_usr_name.setText("点击登录");
                 return;
             }
         }
+    }
+
+    public void onResume() {
+        super.onResume();
+        MobclickAgent.onResume(this);
+    }
+    public void onPause() {
+        super.onPause();
+        MobclickAgent.onPause(this);
     }
 }

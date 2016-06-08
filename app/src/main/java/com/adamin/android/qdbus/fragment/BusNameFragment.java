@@ -103,7 +103,8 @@ public class BusNameFragment extends Fragment {
                 .subscribe(new Action1<SearchBusWrapper>() {
                     @Override
                     public void call(SearchBusWrapper searchBusWrapper) {
-                          if(null==searchBusWrapper.getData()){
+                          if(null==searchBusWrapper.getData()||searchBusWrapper.getData().size()==0){
+                              Snackbar.make(recyclerView,"没有查询到内容",Snackbar.LENGTH_SHORT).show();
                               Log.e("查询结果","没有查询到内容");
                           }else {
                               Snackbar.make(recyclerView,"查询数据成功",Snackbar.LENGTH_SHORT).show();

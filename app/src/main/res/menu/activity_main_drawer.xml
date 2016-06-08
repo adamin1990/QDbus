@@ -32,7 +32,7 @@
                 android:title="@string/exit" />
             <item
                 android:id="@+id/nav_about"
-                android:icon="@drawable/ic_exit_to_app_black_18dp"
+                android:icon="@drawable/ic_action_about"
                 android:title="@string/about" />
         </menu>
     </item>
